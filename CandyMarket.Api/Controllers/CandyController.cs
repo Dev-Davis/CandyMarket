@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CandyMarket.Api.Controllers
 {
+    [Route("api/candy")]
     [ApiController]
-    [Route("[controller]")]
     public class CandyController : ControllerBase
     {
         private readonly ILogger<CandyController> _logger;
@@ -23,21 +23,37 @@ namespace CandyMarket.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Candy> GetAll()
+        public ActionResult<IEnumerable<Candy>> GetAll()
         {
-            return _repo.GetAllCandy();
+            var repo = new Candy();
+            return Ok(_repo.GetAllCandy());
         }
 
         [HttpGet("{candyId}")]
-        public Candy Get(Guid candyId)
+        public ActionResult<Candy> GetById(int candyId)
         {
+            var _repo = new CandyRepository();
             return _repo.GetAllCandy().FirstOrDefault(candy => candy.Id == candyId);
         }
 
         [HttpPost]
         public void Add(AddCandyDto newCandy)
         {
-            _repo.AddCandy(newCandy);
+            //var candies = new Candy
+            //{
+            //    Id = 1,
+            //    Name = newCandy.Name,
+            //    Texture = newCandy.Texture
+            //};
+
+            var repo = new CandyRepository();
+            var newCandyGotten = repo.AddCandy(newCandy);
+
+            //    if (newCandyGotten == null)
+            //    {
+            //        return NotFound("Didn't get any candy.");
+            //    }
+            //    return Created($"api/candy/{newCandyGotten.Name}", newCandyGotten);
         }
 
         [HttpDelete("{candyIdToDelete}/eat")]
