@@ -39,26 +39,26 @@ namespace CandyMarket.Api.Controllers
         [HttpPost]
         public IActionResult Add(AddCandyDto newCandy)
         {
-            //var candy = new Candy
-            //{
-            //    Name = newCandy.Name,
-            //    Texture = newCandy.Texture
-            //};
+            var candy = new Candy
+            {
+                Name = newCandy.Name,
+                Texture = newCandy.Texture
+            };
             _repo.AddCandy(newCandy);
             return Ok();
         }
 
         [HttpDelete("{candyIdToDelete}/eat")]
-        public void Delete(Guid candyIdToDelete)
+        public void Delete(string name)
         {
-            _repo.EatCandy(candyIdToDelete);
+            _repo.EatCandy(name);
         }
 
         [HttpDelete("{candyIdToDonate}/donate")]
-        public void Donate(Guid candyIdToDonate)
+        public void Donate(string name)
         {
             // todo: make this endpoint behave less greedy and more honest
-            _repo.EatCandy(candyIdToDonate);
+            _repo.EatCandy(name);
         }
 
         //[HttpPost]
