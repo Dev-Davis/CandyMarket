@@ -49,7 +49,27 @@ namespace CandyMarket.Api.Repositories
 
         public Candy Get(int candyId)
         {
-            throw new NotImplementedException();
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"select *
+                            from Candy
+                            where Id = @candyId";
+                var parameters = new 
+                { 
+                    CandyId = candyId 
+                };
+
+                var candy = db.QueryFirst<Candy>(sql, parameters);
+                return candy;
+            }
         }
+
+        //public IEnumerable<Candy>GetCandyForUsers(int userId)
+        //{
+        //    using (var db = new SqlConnection(_connectionString))
+        //    {
+        //        //CandyRepository sql = @"select * from "
+        //    }
+        //}
     }
 }

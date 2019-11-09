@@ -17,7 +17,7 @@ class CandyList extends React.Component {
     ))
 
     render() {
-        return(
+        return (
             <p>{this.buildCandy()}</p>
         )
     }
