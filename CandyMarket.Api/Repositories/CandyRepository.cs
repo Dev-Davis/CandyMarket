@@ -46,5 +46,10 @@ namespace CandyMarket.Api.Repositories
                 return db.Execute(sql, new { name }) == 1;
             }
         }
+
+        public Candy Get(int candyId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

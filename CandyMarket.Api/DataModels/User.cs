@@ -7,5 +7,8 @@ namespace CandyMarket.Api.DataModels
 {
     public class User
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<Candy> Pocket { get; set; }
     }
 }

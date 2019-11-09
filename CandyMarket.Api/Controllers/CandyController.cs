@@ -23,17 +23,17 @@ namespace CandyMarket.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Candy>> GetAll()
+        public IEnumerable<Candy> GetAll()
         {
-            var repo = new Candy();
-            return Ok(_repo.GetAllCandy());
+            var candies = _repo.GetAllCandy();
+            return candies;
         }
 
         [HttpGet("{candyId}")]
-        public ActionResult<Candy> GetById(int candyId)
+        public Candy GetById(int candyId)
         {
-            var _repo = new CandyRepository();
-            return _repo.GetAllCandy().FirstOrDefault(candy => candy.Id == candyId);
+            var candyLand = _repo.Get(candyId);
+            return candyLand;
         }
 
         [HttpPost]
