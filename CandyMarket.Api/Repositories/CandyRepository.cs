@@ -37,10 +37,14 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
-        public bool EatCandy(Guid candyIdToDelete)
+        public bool EatCandy(string name)
         {
             // use dapper
-            throw new NotImplementedException();
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"delete from Candy where [Name] = @name";
+                return db.Execute(sql, new { name }) == 1;
+            }
         }
     }
 }
