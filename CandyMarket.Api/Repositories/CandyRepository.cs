@@ -64,12 +64,19 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
-        //public IEnumerable<Candy>GetCandyForUsers(int userId)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        //CandyRepository sql = @"select * from "
-        //    }
-        //}
+        public IEnumerable<Candy> GetCandyForUsers(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"select * from UserCandy where UserId = @userId";
+                var parameters = new
+                {
+                    UserId = userId
+                };
+
+                var userCandyOwned = db.Query<Candy>(sql, parameters);
+                return userCandyOwned;
+            }
+        }
     }
 }

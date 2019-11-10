@@ -1,9 +1,24 @@
 import React from 'react';
-import getAllCandies from '../../Requests/candyRequests';
+import candyRequest from '../../Requests/candyRequests';
 
 class CandyList extends React.Component {
     state = {
         candy: []
+    }
+
+    getCandyValue = () => {
+        candyRequest.getAllCandies()
+        .then((values) => {
+            let myNewCandies = [...values];
+            this.setState({candy: myNewCandies});
+        }).catch((error) => {
+            console.log("broken connection: ", error);
+        })
+    }
+
+    showCandies = () => {
+        const candyValues = [...this.state.candy];
+        return candyValues.map(value => <div>{value}</div>)
     }
 
     componentDidMount() {

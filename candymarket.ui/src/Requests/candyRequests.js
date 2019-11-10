@@ -8,4 +8,6 @@ const getAllCandies = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-export default getAllCandies;
+export default {
+    getAllCandies
+} 
