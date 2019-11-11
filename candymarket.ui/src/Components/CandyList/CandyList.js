@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Link } from 'react-router-dom';
 import candyRequest from '../../Requests/candyRequests';
 
 class CandyList extends React.Component {
@@ -6,34 +7,28 @@ class CandyList extends React.Component {
         candy: []
     }
 
-    getCandyValue = () => {
+    getCandy = () => {
         candyRequest.getAllCandies()
         .then((values) => {
-            let myNewCandies = [...values];
-            this.setState({candy: myNewCandies});
+            let myNewCandy = [...values];
+            this.setState({candy: myNewCandy});
         }).catch((error) => {
-            console.log("broken connection: ", error);
+            console.log("No new candy: ", error);
         })
     }
 
-    showCandies = () => {
+    showAllCandy = () => {
         const candyValues = [...this.state.candy];
-        return candyValues.map(value => <div>{value}</div>)
+        return candyValues.map(value => <div>{value.name}</div>)
     }
-
-    componentDidMount() {
-        getAllCandies().then(data => {
-            this.setState({candy:data})
-        })
-    }
-
-    buildCandy = () => this.state.candy.map(c => (
-        <div>{c.name}</div>
-    ))
 
     render() {
         return (
-            <p>{this.buildCandy()}</p>
+            <div className="card" style={{ width: '21rem' }}>
+                <button className="btn btn-success" onClick={this.getCandy}>Show Candies</button>
+                {this.showAllCandy()}
+            </div>
+            
         )
     }
 }
