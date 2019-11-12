@@ -14,11 +14,7 @@ const eatCandy = (candyId) => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 })
 
-const addCandy = (newCandy) => new Promise((resolve, reject) => {
-    axios.post(`${baseUrl}/candy`, newCandy)
-    .then(result => resolve(result.data))
-    .catch(err => reject(err));
-})
+const addCandy = (newCandy) => axios.post(`${baseUrl}/candy`, newCandy);
 
 
 

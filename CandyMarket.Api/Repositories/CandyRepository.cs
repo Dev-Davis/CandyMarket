@@ -25,15 +25,20 @@ namespace CandyMarket.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"insert into Candy([Name], Texture)
-                          values(@candyName, @Texture)";
+                var sql = @"INSERT INTO [Candy]
+                                           ([Name]
+                                           ,[Texture])
+	                                 output inserted.*
+                                     VALUES
+                                           (@name
+                                           ,@texture)";
 
-                var parameters = new
-                {
-                    candyName = newCandy.Name,
-                    Texture = newCandy.Texture
-                };
-                return db.Execute(sql, parameters) == 1;
+                //var parameters = new
+                //{
+                //    candyName = newCandy.Name,
+                //    candyType = newCandy.Type
+                //};
+                return db.Execute(sql, newCandy) == 1;
             }
         }
 

@@ -2,9 +2,35 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import candyRequest from '../../Requests/candyRequests';
 
+const newCandyInfo = {
+    name: '',
+    type: ''
+};
+
 class CandyList extends React.Component {
     state = {
-        candy: []
+        candy: [],
+        newCandy: newCandyInfo
+    }
+
+    stringStateField = (name, e) => {
+        const copyCandy = {...this.state.newCandy};
+        copyCandy[name] = e.target.value;
+        this.setState({ newCandy: copyCandy });
+    }
+
+    nameChange = e => this.stringStateField('name', e);
+    typeChange = e => this.stringStateField('type', e);
+
+    submitCandy = (e) => {
+        e.preventDefault();
+        const saveCandy = {...this.state.newCandy};
+        candyRequest.addCandy(saveCandy)
+        .then(() => this.getCandy)
+        .catch(err => console.log("Unable to add candy", err));
+        this.setState({
+            newCandy: newCandyInfo
+        })
     }
 
     getCandy = () => {
@@ -17,43 +43,42 @@ class CandyList extends React.Component {
         })
     }
 
-    addCandy = () => {
-        candyRequest.addCandy()
-        .then((values) => {
-            let newCandy = [...values];
-            this.setState = ({candy: newCandy});
-        }).catch((error) => {
-            console.log("No new candy: ", error);
-        })
-    }
-
     showAllCandy = () => {
         const candyValues = [...this.state.candy];
         return candyValues.map(value => <div key={value.id}>{value.name}</div>)
     }
 
     render() {
+
         return (
             <div className="card" style={{ width: '21rem' }}>
                 {this.showAllCandy()}
-                <button className="btn btn-success" onClick={this.getCandy}>Show Candies</button>
-                <form>
+                <button className="btn btn-success">Show Candies</button>
+                <form onSubmit={this.submitCandy}>
                     <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Email address</label>
-                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
-                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <label htmlFor="candyName">Candy Name</label>
+                        <input 
+                        type="text" 
+                        className="form-control" 
+                        id="nameCandy" 
+                        placeholder="Enter candy name"
+                        value={this.state.newCandy.name}
+                        onChange={this.nameChange}/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Password</label>
-                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                        <label htmlFor="candyType">Type</label>
+                        <input 
+                        type="text" 
+                        className="form-control" 
+                        id="typeCandy" 
+                        placeholder="Candy Type"
+                        value={this.state.newCandy.type}
+                        onChange={this.typeChange} />
                     </div>
-                    <div className="form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                    <div>
+                        <button type="submit" className="btn btn-primary">Add Candies</button>
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
-                <button className="btn btn-success" onClick={this.addCandy}>Add Candies</button>
             </div>
         )
     }
