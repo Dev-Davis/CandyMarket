@@ -25,15 +25,20 @@ namespace CandyMarket.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"insert into Candy([Name], Texture)
-                          values(@candyName, @Texture)";
+                var sql = @"INSERT INTO [Candy]
+                                           ([Name]
+                                           ,[Texture])
+	                                 output inserted.*
+                                     VALUES
+                                           (@name
+                                           ,@texture)";
 
-                var parameters = new
-                {
-                    candyName = newCandy.Name,
-                    Texture = newCandy.Texture
-                };
-                return db.Execute(sql, parameters) == 1;
+                //var parameters = new
+                //{
+                //    candyName = newCandy.Name,
+                //    candyType = newCandy.Type
+                //};
+                return db.Execute(sql, newCandy) == 1;
             }
         }
 
@@ -44,6 +49,38 @@ namespace CandyMarket.Api.Repositories
             {
                 var sql = @"delete from Candy where [Name] = @name";
                 return db.Execute(sql, new { name }) == 1;
+            }
+        }
+
+        public Candy Get(int candyId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"select *
+                            from Candy
+                            where Id = @candyId";
+                var parameters = new 
+                { 
+                    CandyId = candyId 
+                };
+
+                var candy = db.QueryFirst<Candy>(sql, parameters);
+                return candy;
+            }
+        }
+
+        public IEnumerable<Candy> GetCandyForUsers(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"select * from UserCandy where UserId = @userId";
+                var parameters = new
+                {
+                    UserId = userId
+                };
+
+                var userCandyOwned = db.Query<Candy>(sql, parameters);
+                return userCandyOwned;
             }
         }
     }

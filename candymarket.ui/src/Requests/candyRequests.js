@@ -8,4 +8,18 @@ const getAllCandies = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-export default getAllCandies;
+const eatCandy = (candyId) => new Promise((resolve, reject) => {
+    axios.delete(`${baseUrl}/candyId/eat`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+})
+
+const addCandy = (newCandy) => axios.post(`${baseUrl}/candy`, newCandy);
+
+
+
+export default {
+    getAllCandies,
+    eatCandy,
+    addCandy
+} 
