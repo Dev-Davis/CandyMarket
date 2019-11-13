@@ -4,7 +4,8 @@ import candyRequest from '../../Requests/candyRequests';
 
 const newCandyInfo = {
     name: '',
-    type: ''
+    type: '',
+    eat: ''
 };
 
 class CandyList extends React.Component {
@@ -21,6 +22,7 @@ class CandyList extends React.Component {
 
     nameChange = e => this.stringStateField('name', e);
     typeChange = e => this.stringStateField('type', e);
+    eatChange = e => this.stringStateField('eat', e);
 
     submitCandy = (e) => {
         e.preventDefault();
@@ -32,6 +34,13 @@ class CandyList extends React.Component {
             newCandy: newCandyInfo
         })
     }
+
+    deleteCandy = candyId => {
+        candyRequest
+        .eatCandy(candyId)
+        .then(() => this.getCandy())
+        .catch(err => console.log("Couldn't delete candy.", err));
+    };
 
     getCandy = () => {
         candyRequest.getAllCandies()
@@ -60,7 +69,7 @@ class CandyList extends React.Component {
                         <input 
                         type="text" 
                         className="form-control" 
-                        id="nameCandy" 
+                        id="name" 
                         placeholder="Enter candy name"
                         value={this.state.newCandy.name}
                         onChange={this.nameChange}/>
@@ -70,7 +79,7 @@ class CandyList extends React.Component {
                         <input 
                         type="text" 
                         className="form-control" 
-                        id="typeCandy" 
+                        id="type" 
                         placeholder="Candy Type"
                         value={this.state.newCandy.type}
                         onChange={this.typeChange} />
@@ -78,6 +87,21 @@ class CandyList extends React.Component {
                     <div>
                         <button type="submit" className="btn btn-primary">Add Candies</button>
                     </div>
+                </form>
+                    <form onSubmit={this.deleteCandy}>
+                        <div className="form-group">
+                            <label htmlFor="candyName">Eat Name</label>
+                            <input 
+                            type="text" 
+                            className="form-control" 
+                            id="eat" 
+                            placeholder="Candy to eat"
+                            value={this.state.newCandy.eat}
+                            onChange={this.eatChange}/>
+                        </div>
+                        <div>
+                            <button type="submit" className="btn btn-primary">Eat Candy</button>
+                        </div>
                     </form>
             </div>
         )
