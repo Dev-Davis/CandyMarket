@@ -49,16 +49,16 @@ namespace CandyMarket.Api.Controllers
         }
 
         [HttpDelete("{candyIdToDelete}/eat")]
-        public void Delete(string name)
+        public void Delete(int candyIdToDelete)
         {
-            _repo.EatCandy(name);
+            _repo.EatCandy(candyIdToDelete);
         }
 
         [HttpDelete("{candyIdToDonate}/donate")]
-        public void Donate(string name)
+        public void Donate(int candyId)
         {
             // todo: make this endpoint behave less greedy and more honest
-            _repo.EatCandy(name);
+            _repo.EatCandy(candyId);
         }
 
         //[HttpPost]

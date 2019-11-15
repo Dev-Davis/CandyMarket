@@ -42,13 +42,13 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
-        public bool EatCandy(string name)
+        public bool EatCandy(int candyId)
         {
             // use dapper
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete from Candy where [Name] = @name";
-                return db.Execute(sql, new { name }) == 1;
+                var sql = @"delete from Candy where [id] = @candyId";
+                return db.Execute(sql, new { candyId }) == 1;
             }
         }
 
@@ -58,7 +58,7 @@ namespace CandyMarket.Api.Repositories
             {
                 var sql = @"select *
                             from Candy
-                            where Id = @candyId";
+                            where id = @candyId";
                 var parameters = new 
                 { 
                     CandyId = candyId 

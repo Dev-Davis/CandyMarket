@@ -8,13 +8,7 @@ const getAllCandies = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-const eatCandy = (candyId) => new Promise ((resolve, reject) => {
-    axios.delete(`${baseUrl}/candy/${candyId}/eat`)
-    .then((result) => {      
-    }).catch((error) => {
-        reject(error);
-    });
-});
+const eatCandy = candyId => axios.delete(`${baseUrl}/candy/${candyId}/eat`);
 
 const addCandy = (newCandy) => axios.post(`${baseUrl}/candy`, newCandy);
 

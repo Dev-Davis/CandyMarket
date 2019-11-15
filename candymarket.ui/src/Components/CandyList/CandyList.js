@@ -35,7 +35,7 @@ class CandyList extends React.Component {
         })
     }
 
-    deleteCandy = candyId => {
+    deleteCandy = (candyId) => {
         candyRequest
         .eatCandy(candyId)
         .then(() => this.getCandy)
@@ -54,7 +54,7 @@ class CandyList extends React.Component {
 
     showAllCandy = () => {
         const candyValues = [...this.state.candy];
-        return candyValues.map(value => <div key={value.id}>{value.name} <button className="btn btn-danger" onClick={this.deleteCandy}>Eat Candy</button></div>)
+        return candyValues.map(candy => <div key={candy.id} onClick={this.deleteCandy}>{candy.name} <button className="btn btn-danger" onClick={this.deleteCandy}>Eat Candy</button></div>)
     }
 
     render() {
@@ -63,6 +63,7 @@ class CandyList extends React.Component {
             <div className="card" style={{ width: '21rem' }}>
                 {this.showAllCandy()}
                 <button onClick={this.getCandy}>Show Candies</button>
+                <br></br>
                 <form onSubmit={this.submitCandy}>
                     <div className="form-group">
                         <label htmlFor="candyName">Candy Name</label>
