@@ -4,8 +4,8 @@ import candyRequest from '../../Requests/candyRequests';
 
 const newCandyInfo = {
     name: '',
-    type: '',
-    eat: ''
+    type: ''
+    // eat: ''
 };
 
 class CandyList extends React.Component {
@@ -22,7 +22,7 @@ class CandyList extends React.Component {
 
     nameChange = e => this.stringStateField('name', e);
     typeChange = e => this.stringStateField('type', e);
-    eatChange = e => this.stringStateField('eat', e);
+    // eatChange = e => this.stringStateField('eat', e);
 
     submitCandy = (e) => {
         e.preventDefault();
@@ -38,7 +38,7 @@ class CandyList extends React.Component {
     deleteCandy = candyId => {
         candyRequest
         .eatCandy(candyId)
-        .then(() => this.getCandy())
+        .then(() => this.getCandy)
         .catch(err => console.log("Couldn't delete candy.", err));
     };
 
@@ -54,7 +54,7 @@ class CandyList extends React.Component {
 
     showAllCandy = () => {
         const candyValues = [...this.state.candy];
-        return candyValues.map(value => <div key={value.id}>{value.name}</div>)
+        return candyValues.map(value => <div key={value.id}>{value.name} <button className="btn btn-danger" onClick={this.deleteCandy}>Eat Candy</button></div>)
     }
 
     render() {
@@ -62,7 +62,7 @@ class CandyList extends React.Component {
         return (
             <div className="card" style={{ width: '21rem' }}>
                 {this.showAllCandy()}
-                <button className="btn btn-success">Show Candies</button>
+                <button onClick={this.getCandy}>Show Candies</button>
                 <form onSubmit={this.submitCandy}>
                     <div className="form-group">
                         <label htmlFor="candyName">Candy Name</label>
@@ -88,7 +88,7 @@ class CandyList extends React.Component {
                         <button type="submit" className="btn btn-primary">Add Candies</button>
                     </div>
                 </form>
-                    <form onSubmit={this.deleteCandy}>
+                    {/* <form onSubmit={this.deleteCandy}>
                         <div className="form-group">
                             <label htmlFor="candyName">Eat Name</label>
                             <input 
@@ -102,7 +102,7 @@ class CandyList extends React.Component {
                         <div>
                             <button type="submit" className="btn btn-primary">Eat Candy</button>
                         </div>
-                    </form>
+                    </form> */}
             </div>
         )
     }
