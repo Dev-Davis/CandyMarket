@@ -1,11 +1,11 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { ListGroup } from 'reactstrap';
 import candyRequest from '../../Requests/candyRequests';
+import Candy from './Candy';
 
 const newCandyInfo = {
     name: '',
     type: ''
-    // eat: ''
 };
 
 class CandyList extends React.Component {
@@ -36,15 +36,16 @@ class CandyList extends React.Component {
     }
 
     deleteCandy = (candyId) => {
-        candyRequest
-        .eatCandy(candyId)
-        .then(() => this.getCandy)
-        .catch(err => console.log("Couldn't delete candy.", err));
+        // console.log(this.state.candy);
+        candyRequest.eatCandy(candyId)
+        .then(() => this.getCandy())
+        .catch(err => console.log("Could not eat the candy", err));  
     };
 
     getCandy = () => {
         candyRequest.getAllCandies()
         .then((values) => {
+            console.error(values)
             let myCandy = [...values];
             this.setState({candy: myCandy});
         }).catch((error) => {
@@ -54,7 +55,11 @@ class CandyList extends React.Component {
 
     showAllCandy = () => {
         const candyValues = [...this.state.candy];
-        return candyValues.map(candy => <div key={candy.id} onClick={this.deleteCandy}>{candy.name} <button className="btn btn-danger" onClick={this.deleteCandy}>Eat Candy</button></div>)
+        return candyValues.map(candy => <div className="col" key={candy.id}>
+        <ListGroup>
+            <Candy candy={candy} deleteCandy={this.deleteCandy}/>
+        </ListGroup>
+        </div>)
     }
 
     render() {
